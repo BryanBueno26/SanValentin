@@ -157,7 +157,7 @@
             <div style="font-size: 50px;">💖</div>
             <h2>¡EXCELENTE QUE SUSTO! ❤️<br>¡QUÉ BONITO QUE ELEGISTE EL SÍ!</h2>
             <p style="font-size: 0.65rem; color: #64748b; line-height: 1.6;">
-                Te amo muchísimo Amor. Eres la mejor, nos vemos el 14/02/2026 ❤️.
+                Te amo muchísimo, Amor. Eres la mejor, nos vemos el 14/02/2026 ❤️.
             </p>
             <img src="nosotros.jpg" onerror="this.src='https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueXZueXpueXpueXpueXpueXpueXpueXpueXpueXpueXpueSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9Ibh3vUzBYMSUgv/giphy.gif'" class="foto-final">
         </div>
@@ -190,19 +190,36 @@
         });
 
         function moverBotonNo() {
-            // Calculamos el máximo permitido (ancho/alto de ventana menos el tamaño del botón)
-            // Agregamos un margen de 20px para que no pegue al borde
-            const margen = 20;
-            const maxX = window.innerWidth - btnNo.offsetWidth - margen;
-            const maxY = window.innerHeight - btnNo.offsetHeight - margen;
+            // 1. Definimos un radio de movimiento (para que no salte al infinito)
+            const radio = 200; 
+            const margen = 30;
 
-            // Generamos la posición aleatoria dentro de los límites visibles
-            const x = Math.max(margen, Math.random() * maxX);
-            const y = Math.max(margen, Math.random() * maxY);
+            // 2. Obtenemos la posición actual del botón
+            const rect = btnNo.getBoundingClientRect();
+            const currentX = rect.left;
+            const currentY = rect.top;
 
+            // 3. Calculamos una nueva posición que esté CERCA de la actual
+            // pero lo suficientemente lejos para que no lo atrapen
+            let newX = currentX + (Math.random() * radio * 2 - radio);
+            let newY = currentY + (Math.random() * radio * 2 - radio);
+
+            // 4. Ajuste de seguridad: Si se sale de la pantalla, lo devolvemos al centro
+            if (newX < margen || newX > window.innerWidth - btnNo.offsetWidth - margen) {
+                newX = window.innerWidth / 2;
+            }
+            if (newY < margen || newY > window.innerHeight - btnNo.offsetHeight - margen) {
+                newY = window.innerHeight / 2;
+            }
+
+            // 5. Aplicamos el movimiento
             btnNo.style.position = 'fixed';
-            btnNo.style.left = x + 'px';
-            btnNo.style.top = y + 'px';
+            btnNo.style.left = newX + 'px';
+            btnNo.style.top = newY + 'px';
+            
+            // 6. Toque pro: Un pequeño giro aleatorio para que se vea más "desesperado"
+            const rotacion = Math.random() * 20 - 10;
+            btnNo.style.transform = `rotate(${rotacion}deg) scale(0.95)`;
         }
 
         btnNo.addEventListener('mouseover', moverBotonNo);
