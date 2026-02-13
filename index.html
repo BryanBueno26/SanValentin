@@ -146,7 +146,7 @@
 
         <div id="intermedio" class="card animate__animated" style="display:none; background: linear-gradient(to bottom, #87CEEB, #E0F7FA);">
             <div class="escena-perrito">
-                <d  iv class="nube">☁️</div>
+                <div class="nube">☁️</div>
                 <div class="perrito-corriendo"><img src="perrito.gif" width="80"></div> 
                 <div class="nube" style="animation-delay: 1s;">☁️</div>
             </div>
@@ -168,6 +168,11 @@
         const card = document.getElementById('pregunta-card');
         const exito = document.getElementById('exito');
         const btnNo = document.getElementById('no');
+
+        // Asegurar que todo esté oculto al cargar menos el inicio
+        card.style.display = 'none';
+        exito.style.display = 'none';
+        document.getElementById('intermedio').style.display = 'none';
 
         function empezar() {
             if (inicio.style.display !== 'none') {
@@ -196,24 +201,30 @@
         btnNo.addEventListener('touchstart', (e) => { e.preventDefault(); moverBotonNo(); });
 
         document.getElementById('si').addEventListener('click', () => {
-            // 1. Esconder pregunta
+            // 1. Escondemos la pregunta
             card.style.display = 'none';
             
-            // 2. Mostrar perrito mensajero
+            // 2. Mostramos el intermedio del perrito
             const intermedio = document.getElementById('intermedio');
             intermedio.style.display = 'block';
+            intermedio.classList.remove('animate__fadeOut'); // Limpiamos clases viejas
             intermedio.classList.add('animate__fadeIn');
 
-            // 3. Esperar 3 segundos y mostrar el éxito final
+            // 3. Después de 3 segundos...
             setTimeout(() => {
+                // Desvanecemos el perrito
                 intermedio.classList.replace('animate__fadeIn', 'animate__fadeOut');
+                
                 setTimeout(() => {
-                    intermedio.style.display = 'none';
+                    // OCULTAMOS el perrito por completo para que no estorbe
+                    intermedio.style.display = 'none'; 
+                    
+                    // Mostramos el éxito final
                     exito.style.display = 'block';
                     exito.classList.add('animate__zoomIn');
-                }, 500);
-            }, 3000); // 3000ms = 3 segundos de perrito
-        }); 
+                }, 500); // Tiempo del desvanecimiento
+            }, 3000); 
+        });
 
         // Animación de corazones de fondo
         const canvas = document.getElementById('canvas-corazones');
