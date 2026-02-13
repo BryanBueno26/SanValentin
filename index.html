@@ -190,36 +190,34 @@
         });
 
         function moverBotonNo() {
-            // 1. Definimos un radio de movimiento (para que no salte al infinito)
-            const radio = 200; 
-            const margen = 30;
+            // 1. Radio de movimiento corto para que no se escape lejos
+            const radio = 80; 
+            // 2. Margen de seguridad desde los bordes de la pantalla
+            const margen = 50;
 
-            // 2. Obtenemos la posición actual del botón
             const rect = btnNo.getBoundingClientRect();
-            const currentX = rect.left;
-            const currentY = rect.top;
+            
+            // 3. Calculamos la nueva posición sumando un valor pequeño a la actual
+            let newX = rect.left + (Math.random() * radio * 2 - radio);
+            let newY = rect.top + (Math.random() * radio * 2 - radio);
 
-            // 3. Calculamos una nueva posición que esté CERCA de la actual
-            // pero lo suficientemente lejos para que no lo atrapen
-            let newX = currentX + (Math.random() * radio * 2 - radio);
-            let newY = currentY + (Math.random() * radio * 2 - radio);
+            // 4. VALIDACIÓN TOTAL: Si la nueva posición se sale del margen, 
+            // lo forzamos a quedarse dentro del área visible
+            const limiteX = window.innerWidth - btnNo.offsetWidth - margen;
+            const limiteY = window.innerHeight - btnNo.offsetHeight - margen;
 
-            // 4. Ajuste de seguridad: Si se sale de la pantalla, lo devolvemos al centro
-            if (newX < margen || newX > window.innerWidth - btnNo.offsetWidth - margen) {
-                newX = window.innerWidth / 2;
-            }
-            if (newY < margen || newY > window.innerHeight - btnNo.offsetHeight - margen) {
-                newY = window.innerHeight / 2;
-            }
+            // Forzamos que X esté entre 'margen' y 'limiteX'
+            newX = Math.max(margen, Math.min(newX, limiteX));
+            // Forzamos que Y esté entre 'margen' y 'limiteY'
+            newY = Math.max(margen, Math.min(newY, limiteY));
 
-            // 5. Aplicamos el movimiento
+            // 5. Aplicar posición y estilo
             btnNo.style.position = 'fixed';
             btnNo.style.left = newX + 'px';
             btnNo.style.top = newY + 'px';
             
-            // 6. Toque pro: Un pequeño giro aleatorio para que se vea más "desesperado"
-            const rotacion = Math.random() * 20 - 10;
-            btnNo.style.transform = `rotate(${rotacion}deg) scale(0.95)`;
+            // Un toque de escala para que parezca que se encoge del susto
+            btnNo.style.transform = `scale(0.9) rotate(${Math.random() * 10 - 5}deg)`;
         }
 
         btnNo.addEventListener('mouseover', moverBotonNo);
