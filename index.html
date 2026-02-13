@@ -190,35 +190,29 @@
         });
 
         function moverBotonNo() {
-        // 1. Calculamos el tamaño disponible real (viewport)
-        const vW = window.innerWidth;
-        const vH = window.innerHeight;
+            // 1. Definimos un margen de seguridad grande (ej. 20% de cada lado)
+            // Esto obliga al botón a quedarse en el "corazón" de la pantalla
+            const margenAncho = window.innerWidth * 0.2; 
+            const margenAlto = window.innerHeight * 0.2;
 
-        // 2. Obtenemos el tamaño del botón para no sacarlo de la pantalla
-        const btnW = btnNo.offsetWidth;
-        const btnH = btnNo.offsetHeight;
+            // 2. Calculamos el ancho y alto real donde sí puede moverse
+            const anchoDisponible = window.innerWidth - (margenAncho * 2) - btnNo.offsetWidth;
+            const altoDisponible = window.innerHeight - (margenAlto * 2) - btnNo.offsetHeight;
 
-        // 3. Definimos un margen de seguridad (ej. 5% de la pantalla) 
-        // para que no se pegue totalmente a los bordes
-        const margen = 20; 
+            // 3. Generamos la posición sumando el margen inicial 
+            // para que nunca toque el borde 0 (izquierdo/superior)
+            const newX = margenAncho + Math.random() * anchoDisponible;
+            const newY = margenAlto + Math.random() * altoDisponible;
 
-        // 4. Generamos una posición aleatoria dentro del área visible real
-        // El límite máximo es (AnchoPantalla - AnchoBoton - Margen)
-        const newX = Math.random() * (vW - btnW - margen * 2) + margen;
-        const newY = Math.random() * (vH - btnH - margen * 2) + margen;
-
-        // 5. Aplicamos estilos para que se mueva suave y se mantenga visible
-        btnNo.style.position = 'fixed';
-        btnNo.style.zIndex = '1000';
-        btnNo.style.margin = '0'; // Evita interferencias de CSS previo
-        btnNo.style.transition = 'all 0.2s ease-out'; // Movimiento fluido
-        btnNo.style.left = `${newX}px`;
-        btnNo.style.top = `${newY}px`;
-        
-        // 6. Rotación juguetona
-        btnNo.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
-    }
-
+            // 4. Aplicamos los estilos
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = `${newX}px`;
+            btnNo.style.top = `${newY}px`;
+            
+            // Toque extra: que no se vea tan rígido
+            btnNo.style.transform = `rotate(${Math.random() * 15 - 7.5}deg) scale(0.95)`;
+            btnNo.style.transition = "all 0.2s ease"; // Para que no "desaparezca", sino que se desplace
+        }
     // Eventos para Desktop y Móvil
     btnNo.addEventListener('mouseover', moverBotonNo);
     btnNo.addEventListener('touchstart', (e) => { 
