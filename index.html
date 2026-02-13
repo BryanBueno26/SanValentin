@@ -190,27 +190,41 @@
         });
 
         function moverBotonNo() {
-            // 1. Definimos el área segura (el 60% central de la pantalla)
-            // Esto evita que el botón se acerque a los bordes
-            const anchoSeguro = window.innerWidth * 0.6;
-            const altoSeguro = window.innerHeight * 0.6;
+        // 1. Calculamos el tamaño disponible real (viewport)
+        const vW = window.innerWidth;
+        const vH = window.innerHeight;
 
-            // 2. Calculamos el inicio de esa zona (el margen para centrarla)
-            const margenX = (window.innerWidth - anchoSeguro) / 2;
-            const margenY = (window.innerHeight - altoSeguro) / 2;
+        // 2. Obtenemos el tamaño del botón para no sacarlo de la pantalla
+        const btnW = btnNo.offsetWidth;
+        const btnH = btnNo.offsetHeight;
 
-            // 3. Generamos una posición aleatoria SOLO dentro de ese cuadro central
-            const newX = margenX + Math.random() * (anchoSeguro - btnNo.offsetWidth);
-            const newY = margenY + Math.random() * (altoSeguro - btnNo.offsetHeight);
+        // 3. Definimos un margen de seguridad (ej. 5% de la pantalla) 
+        // para que no se pegue totalmente a los bordes
+        const margen = 20; 
 
-            // 4. Aplicamos el movimiento con una transición suave (opcional)
-            btnNo.style.position = 'fixed';
-            btnNo.style.left = newX + 'px';
-            btnNo.style.top = newY + 'px';
-            
-            // 5. Lo rotamos para que se vea juguetón
-            btnNo.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
-        }
+        // 4. Generamos una posición aleatoria dentro del área visible real
+        // El límite máximo es (AnchoPantalla - AnchoBoton - Margen)
+        const newX = Math.random() * (vW - btnW - margen * 2) + margen;
+        const newY = Math.random() * (vH - btnH - margen * 2) + margen;
+
+        // 5. Aplicamos estilos para que se mueva suave y se mantenga visible
+        btnNo.style.position = 'fixed';
+        btnNo.style.zIndex = '1000';
+        btnNo.style.margin = '0'; // Evita interferencias de CSS previo
+        btnNo.style.transition = 'all 0.2s ease-out'; // Movimiento fluido
+        btnNo.style.left = `${newX}px`;
+        btnNo.style.top = `${newY}px`;
+        
+        // 6. Rotación juguetona
+        btnNo.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+    }
+
+    // Eventos para Desktop y Móvil
+    btnNo.addEventListener('mouseover', moverBotonNo);
+    btnNo.addEventListener('touchstart', (e) => { 
+        e.preventDefault(); // Evita que el clic se active al tocar
+        moverBotonNo(); 
+    });
 
         btnNo.addEventListener('mouseover', moverBotonNo);
         btnNo.addEventListener('touchstart', (e) => { e.preventDefault(); moverBotonNo(); });
