@@ -75,7 +75,13 @@
         #si { background-color: var(--primary-pink); color: white; box-shadow: 0 5px 0 #a91d3a; }
         #si:hover { transform: scale(1.1); }
         
-        #no { background-color: #94a3b8; color: white; position: relative; z-index: 20; }
+        #no { 
+            background-color: #94a3b8; 
+            color: white; 
+            position: relative; 
+            z-index: 20; 
+            margin-left: 40px; /* Aquí aumentas el margen inicial en píxeles */
+        }
 
         #inicio h1 { font-size: 2rem; color: var(--primary-pink); text-shadow: 4px 4px #000; }
         .blink { animation: blinker 1.5s linear infinite; font-size: 0.6rem; color: #94a3b8; margin-top: 20px;}
@@ -149,12 +155,14 @@
         </div>
 
         <div id="intermedio" class="card animate__animated" style="display:none; background: linear-gradient(to bottom, #87CEEB, #E0F7FA);">
+            <p style="font-size: 0.8rem; color: #1e293b; font-weight: bold; margin-bottom: 10px;">✅ ¡RESPUESTA ENVIADA A BRYAN!</p>
+            
             <div class="escena-perrito">
                 <div class="nube">☁️</div>
                 <div class="perrito-corriendo"><img src="perrito.gif" width="80"></div> 
                 <div class="nube" style="animation-delay: 1s;">☁️</div>
             </div>
-        <p style="font-size: 0.7rem; margin-top: 20px;">¡Dijo que sí! <br> ¡Corriendo a avisarle a Bryan!</p>
+            <p style="font-size: 0.7rem; margin-top: 20px;">¡Dijo que sí! <br> ¡Corriendo a avisarle!</p>
         </div>
 
         <div id="exito" class="card animate__animated">
