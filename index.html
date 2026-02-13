@@ -157,7 +157,7 @@
             <div style="font-size: 50px;">💖</div>
             <h2>¡EXCELENTE QUE SUSTO! ❤️<br>¡QUÉ BONITO QUE ELEGISTE EL SÍ!</h2>
             <p style="font-size: 0.65rem; color: #64748b; line-height: 1.6;">
-                Te amo muchísimo. Eres la mejor, nos vemos el 14/02/2026 ❤️.
+                Te amo muchísimo Amor. Eres la mejor, nos vemos el 14/02/2026 ❤️.
             </p>
             <img src="nosotros.jpg" onerror="this.src='https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueXZueXpueXpueXpueXpueXpueXpueXpueXpueXpueXpueSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9Ibh3vUzBYMSUgv/giphy.gif'" class="foto-final">
         </div>
@@ -190,9 +190,17 @@
         });
 
         function moverBotonNo() {
+            // Calculamos el máximo permitido (ancho/alto de ventana menos el tamaño del botón)
+            // Agregamos un margen de 20px para que no pegue al borde
+            const margen = 20;
+            const maxX = window.innerWidth - btnNo.offsetWidth - margen;
+            const maxY = window.innerHeight - btnNo.offsetHeight - margen;
+
+            // Generamos la posición aleatoria dentro de los límites visibles
+            const x = Math.max(margen, Math.random() * maxX);
+            const y = Math.max(margen, Math.random() * maxY);
+
             btnNo.style.position = 'fixed';
-            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
             btnNo.style.left = x + 'px';
             btnNo.style.top = y + 'px';
         }
