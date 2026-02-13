@@ -90,6 +90,38 @@
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+
+        .escena-perrito {
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .perrito-corriendo {
+            font-size: 50px;
+            animation: bounce 0.5s infinite;
+        }
+
+        .nube {
+            position: absolute;
+            font-size: 30px;
+            animation: moveNube 3s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes moveNube {
+            from { left: -50px; }
+            to { left: 110%; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
     </style>
 </head>
 <body>
@@ -112,11 +144,20 @@
             </div>
         </div>
 
+        <div id="intermedio" class="card animate__animated" style="display:none; background: linear-gradient(to bottom, #87CEEB, #E0F7FA);">
+            <div class="escena-perrito">
+                <d  iv class="nube">☁️</div>
+                <div class="perrito-corriendo"><img src="perrito.gif" width="80"></div> 
+                <div class="nube" style="animation-delay: 1s;">☁️</div>
+            </div>
+        <p style="font-size: 0.7rem; margin-top: 20px;">¡Dijo que sí! <br> ¡Corriendo a avisarle a Bryan!</p>
+        </div>
+
         <div id="exito" class="card animate__animated">
             <div style="font-size: 50px;">💖</div>
-            <h2>¡SABÍA QUE DIRÍAS QUE SÍ!</h2>
+            <h2>¡EXCELENTE QUE SUSTO! ❤️<br>¡QUÉ BONITO QUE ELEGISTE EL SÍ!</h2>
             <p style="font-size: 0.65rem; color: #64748b; line-height: 1.6;">
-                Te amo muchísimo, Kari. Nos vemos el 14/02/2026 ❤️.
+                Te amo muchísimo, Kari. Eres la mejor, nos vemos el 14/02/2026 ❤️.
             </p>
             <img src="nosotros.jpg" onerror="this.src='https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueXZueXpueXpueXpueXpueXpueXpueXpueXpueXpueXpueSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9Ibh3vUzBYMSUgv/giphy.gif'" class="foto-final">
         </div>
@@ -155,13 +196,24 @@
         btnNo.addEventListener('touchstart', (e) => { e.preventDefault(); moverBotonNo(); });
 
         document.getElementById('si').addEventListener('click', () => {
-            card.classList.replace('animate__backInUp', 'animate__fadeOutDown');
+            // 1. Esconder pregunta
+            card.style.display = 'none';
+            
+            // 2. Mostrar perrito mensajero
+            const intermedio = document.getElementById('intermedio');
+            intermedio.style.display = 'block';
+            intermedio.classList.add('animate__fadeIn');
+
+            // 3. Esperar 3 segundos y mostrar el éxito final
             setTimeout(() => {
-                card.style.display = 'none';
-                exito.style.display = 'block';
-                exito.classList.add('animate__zoomIn');
-            }, 500);
-        });
+                intermedio.classList.replace('animate__fadeIn', 'animate__fadeOut');
+                setTimeout(() => {
+                    intermedio.style.display = 'none';
+                    exito.style.display = 'block';
+                    exito.classList.add('animate__zoomIn');
+                }, 500);
+            }, 3000); // 3000ms = 3 segundos de perrito
+        }); 
 
         // Animación de corazones de fondo
         const canvas = document.getElementById('canvas-corazones');
